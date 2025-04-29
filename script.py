@@ -47,10 +47,10 @@ model = Sequential([
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 # Treinamento
-model.fit(train_generator, validation_data=val_generator, epochs=5)
+# model.fit(train_generator, validation_data=val_generator, epochs=5)
 
 # Salva o modelo
-model.save("modelo_animais.h5")
+# model.save("modelo_animais.h5")
 
 # Função para prever nova imagem
 def prever_imagem(caminho_imagem):
@@ -65,3 +65,6 @@ def prever_imagem(caminho_imagem):
     plt.title(f"Previsão: {classes[indice]}")
     plt.axis('off')
     plt.show()
+
+# Exemplo de uso
+prever_imagem("./datasets/validacao/cachorro/cachorro_teste2.jfif")
