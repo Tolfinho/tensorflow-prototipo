@@ -5,53 +5,147 @@
   <title>Classificador de Animais</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Roboto', sans-serif;
       background: #f4f4f4;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: 30px;
+      color: #333;
     }
 
     h1 {
-      color: #333;
+      margin-bottom: 20px;
     }
 
     form {
       background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      display: inline-block;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    input[type="file"] {
-      margin: 10px 0;
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      margin: 15px 0;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      font-size: 100px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+
+    .file-label {
+      display: inline-block;
+      background-color: #1976d2;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .file-label:hover {
+      background-color: #0d47a1;
+    }
+
+    button {
+      background-color: #43a047;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2e7d32;
+    }
+
+    .preview {
+      margin-top: 20px;
+      max-width: 300px;
+    }
+
+    .preview img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
     .result {
       margin-top: 20px;
     }
 
-    img {
-      max-width: 300px;
-      margin-top: 10px;
-      border-radius: 10px;
+    .result h2 {
+      font-weight: normal;
+      color: #444;
     }
   </style>
 </head>
 <body>
   <h1>Classificador de Animais 🐾</h1>
 
-  <form method="POST" enctype="multipart/form-data">
-    <input type="file" name="file" accept="image/*" required><br>
-    <button type="submit">Enviar Imagem</button>
+  <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <div class="file-input-wrapper">
+      <label for="file-upload" class="file-label">Escolher imagem</label>
+      <input type="file" id="file-upload" name="file" accept="image/*" required onchange="previewImage(event)">
+    </div>
+    <button type="submit">Verificar Imagem</button>
+
+    <div class="preview" id="preview-container" style="display: none;">
+      <img id="preview-image" src="#" alt="Pré-visualização da imagem">
+    </div>
   </form>
 
   {% if prediction %}
   <div class="result">
     <h2>Resultado: {{ prediction }} ({{ confidence }}%)</h2>
-    <img src="{{ image_path }}" alt="Imagem enviada">
+    <img src="{{ image_path }}" alt="Imagem enviada" style="max-width:300px; margin-top: 10px; border-radius: 10px;">
   </div>
   {% endif %}
+
+  <script>
+    function previewImage(event) {
+      const input = event.target;
+      const previewContainer = document.getElementById('preview-container');
+      const previewImage = document.getElementById('preview-image');
+
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewImage.src = e.target.result;
+          previewContainer.style.display = 'block';
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function validateForm() {
+      const input = document.getElementById('file-upload');
+      if (!input.files.length) {
+        alert("Por favor, selecione uma imagem antes de enviar.");
+        return false;
+      }
+      return true;
+    }
+  </script>
 </body>
 </html>
