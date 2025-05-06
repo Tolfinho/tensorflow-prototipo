@@ -46,25 +46,26 @@ model = Sequential([
 
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-# Treinamento
-# model.fit(train_generator, validation_data=val_generator, epochs=5)
+# COMENTE ESSAS DUAS LINHAS DEPOIS DE TREINAR UMA VEZ
+model.fit(train_generator, validation_data=val_generator, epochs=5)
+model.save("modelo_animais.h5")
 
-# Salva o modelo
-# model.save("modelo_animais.h5")
+# DESCOMENTE ESTA LINHA PARA CARREGAR O MODELO TREINADO
+# model = tf.keras.models.load_model("modelo_animais.h5")
 
 # Função para prever nova imagem
-def prever_imagem(caminho_imagem):
-    imagem = load_img(caminho_imagem, target_size=(IMG_HEIGHT, IMG_WIDTH))
-    imagem_array = img_to_array(imagem) / 255.0
-    imagem_array = np.expand_dims(imagem_array, axis=0)
-    previsao = model.predict(imagem_array)
-    indice = np.argmax(previsao)
-    classes = list(train_generator.class_indices.keys())
-    print("Previsão:", classes[indice], f"({previsao[0][indice]*100:.2f}%)")
-    plt.imshow(imagem)
-    plt.title(f"Previsão: {classes[indice]}")
-    plt.axis('off')
-    plt.show()
+# def prever_imagem(caminho_imagem):
+#     imagem = load_img(caminho_imagem, target_size=(IMG_HEIGHT, IMG_WIDTH))
+#     imagem_array = img_to_array(imagem) / 255.0
+#     imagem_array = np.expand_dims(imagem_array, axis=0)
+#     previsao = model.predict(imagem_array)
+#     indice = np.argmax(previsao)
+#     classes = list(train_generator.class_indices.keys())
+#     print("Previsão:", classes[indice], f"({previsao[0][indice]*100:.2f}%)")
+#     plt.imshow(imagem)
+#     plt.title(f"Previsão: {classes[indice]}")
+#     plt.axis('off')
+#     plt.show()
 
-# Exemplo de uso
-prever_imagem("./datasets/validacao/cachorro/cachorro_teste2.jfif")
+# Exemplo de uso (descomente pra testar)
+# prever_imagem("./datasets/validacao/gato/gato_teste.jpg")

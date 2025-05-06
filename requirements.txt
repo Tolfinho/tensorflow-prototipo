@@ -1,2 +1,5 @@
 tensorflow
 matplotlib
+Flask
+numpy
+Pillow
