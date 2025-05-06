@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Classificador de Animais</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input[type="file"] {
+      margin: 10px 0;
+    }
+
+    .result {
+      margin-top: 20px;
+    }
+
+    img {
+      max-width: 300px;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Classificador de Animais 🐾</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" accept="image/*" required><br>
+    <button type="submit">Enviar Imagem</button>
+  </form>
+
+  {% if prediction %}
+  <div class="result">
+    <h2>Resultado: {{ prediction }} ({{ confidence }}%)</h2>
+    <img src="{{ image_path }}" alt="Imagem enviada">
+  </div>
+  {% endif %}
+</body>
+</html>
